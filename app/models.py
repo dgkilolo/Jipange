@@ -47,7 +47,7 @@ class Diary(db.Model):
   title = db.Column(db.String(255))
   description = db.Column(db.String(700))
   posted = db.Column(db.DateTime, default=datetime.utcnow)  
-  user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+  user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
   picture_pic_path = db.Column(db.String())
   
 
@@ -58,7 +58,7 @@ class Shopping(db.Model):
   id = db.Column(db.Integer, primary_key = True)
   item = db.Column(db.String(55))  
   time = db.Column(db.DateTime, default=datetime.utcnow)  
-  user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+  user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
  
 
 class ToDoList(db.Model):
@@ -68,6 +68,6 @@ class ToDoList(db.Model):
   id = db.Column(db.Integer, primary_key = True)
   toDo = db.Column(db.String(55))  
   time = db.Column(db.DateTime, default=datetime.utcnow)  
-  user_id = db.Column(db.Integer, db.ForeignKey('user.id')) 
+  user_id = db.Column(db.Integer, db.ForeignKey('users.id')) 
 
 
