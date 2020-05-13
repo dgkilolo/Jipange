@@ -4,7 +4,7 @@ class Config:
 
     SECRET_KEY = os.environ.get('SECRET_KEY')
     
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://dkg:boot@localhost/jipange'  
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://mercy:shii@localhost/jipange'  
                 ### remeber to change to your own local database
                 # SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://'yourdatabase':'yourpassword'@localhost/jipange'  
     

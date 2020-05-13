@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    {% if title %}
+    <title> {{ title }} </title>
+    {% else %}
+    <title>Jipange</title>
+    {% endif %}
+  </head>
+  <body>      
+    <!-- Styles block -->
+    {% block styles%}
+    {{ super() }}
+    <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
+    {% endblock %}
+    <!-- Content block -->
+    {% block content %}
+    <div class="container">      
+      <div id="welcome">
+        <br>             
+        <!-- <h1 id="heading" class="heading" >BLOG !<br></h1> -->
+        <p><u>WHAT WOULD YOU LIKE TO DO TODAY</u></p>
+        <br><br><br><br><br><br><br><br><br>               
+        <div class="row">
+          <div class="col-md-4">
+            <h1>Diary</h1>
+          </div>
+          <div class="col-md-4">
+            <h1>Shopping List</h1>
+          </div>
+          <div class="col-md-4">
+            <h1>To-do-list</h1>
+          </div>
+        </div>
+      </div>    
+    </div>
+    {% endblock %}
+    
+  </body>
+</html>
