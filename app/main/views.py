@@ -21,17 +21,29 @@ def index():
     return render_template('index.html', title = title)
     
 
-@main.route('/home')
+@main.route('/shopping')
+def shopping():
+    '''
+    View root page function that returns the home page.
+    '''
+    title = 'Blog'
+    
+    # pitches = Pitch.query.filter_by(category = 'pun').all()
+    # comment = Comment.query.filter_by(pitch_id = 1).all()
+    
+    return render_template('shopping/shopping.html', title = title)
+
+@main.route('/diary')
 def home():
     '''
     View root page function that returns the home page.
     '''
     title = 'Blog'
-    posts = Posts.query.all()
+    
     # pitches = Pitch.query.filter_by(category = 'pun').all()
     # comment = Comment.query.filter_by(pitch_id = 1).all()
     
-    return render_template('home.html', title = title, posts=posts)
+    return render_template('diary/diary.html', title = title)
 
 
 # @main.route('/home/<int:postId>/deletePost',methods = ['GET','POST'])
