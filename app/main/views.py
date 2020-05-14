@@ -17,6 +17,7 @@ def index():
     title = 'Jipange'
     return render_template('index.html', title = title)
 
+
 @main.route('/diary' ,methods = ['GET', 'POST'])
 @login_required
 def diary():
@@ -25,7 +26,9 @@ def diary():
     
 
 
+
     return render_template('diary/diary.html', title = title, diary_entries = diary_entries)
+
 
 @main.route('/diary/<uname>/addpost', methods = ['GET', 'POST'])
 def add_diary(uname):
@@ -48,6 +51,50 @@ def add_diary(uname):
         
         new_diary = Diary(title = title, description = description , picture_pic_path = picture_pic_path, user = user)
         new_diary.save_diary()
+
+@main.route('/user/<uname>')
+def profile(uname):
+  user = User.query.filter_by(username = uname).first()
+
+
+  if user is None:
+      abort(404)
+  title = "Profile"
+  return render_template("profile/profile.html", user=user, title=title)
+
+
+@main.route('/user/<uname>/update',methods = ['GET','POST'])
+@login_required
+def update_profile(uname):
+    user = User.query.filter_by(username = uname).first()
+    if user is None:
+        abort(404)
+
+    form = UpdateProfile()
+
+    if form.validate_on_submit():
+        user.bio = form.bio.data
+
+
+        db.session.add(user)
+        db.session.commit()
+
+        return redirect(url_for('.profile',uname=user.username))
+
+    return render_template('profile/update.html',form =form)
+
+
+@main.route('/user/<uname>/update/pic',methods= ['POST'])
+@login_required
+def update_pic(uname):
+    user = User.query.filter_by(username = uname).first()
+    if 'photo' in request.files:
+        filename = photos.save(request.files['photo'])
+        path = f'photos/{filename}'
+        user.profile_pic_path = path
+        db.session.commit()
+    return redirect(url_for('.profile',uname=uname))
+
 
     
         return redirect(url_for('main.diary'))
@@ -99,4 +146,53 @@ def delete_diary(diary_id):
     db.session.delete(diary)
     db.session.commit()
 
+
     return redirect(url_for('main.diary'))
+
+@main.route('/todolist')
+def tasks_list():
+    tasks = ToDoList.query.all()
+    return render_template('todolist/todolist.html', tasks=tasks)
+
+
+@main.route('/task', methods=['POST'])
+def add_task():
+    content = request.form['content']
+    if not content:
+        return 'Ooops! Error you forgot to input text'
+
+    task = ToDoList(content)
+    db.session.add(task)
+    db.session.commit()
+    return redirect('/todolist')
+
+
+@main.route('/delete/<int:task_id>')
+def delete_task(task_id):
+    task = ToDoList.query.get(task_id)
+    if not task:
+        return redirect('/todolist')
+
+    db.session.delete(task)
+    db.session.commit()
+    return redirect('/todolist')
+
+
+@main.route('/done/<int:task_id>')
+def resolve_task(task_id):
+    task = ToDoList.query.get(task_id)
+
+    if not task:
+        return redirect('/todolist')
+    if task.done:
+        task.done = False
+    else:
+        task.done = True
+
+    db.session.commit()
+    return redirect('/todolist')
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
+

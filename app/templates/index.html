@@ -21,19 +21,29 @@
     <div class="container">      
       <div id="welcome">
         <br>             
-        <!-- <h1 id="heading" class="heading" >BLOG !<br></h1> -->
-        <p><u>WHAT WOULD YOU LIKE TO DO TODAY</u></p>
-        <br><br><br><br><br><br><br><br><br>               
+        <h1 id="heading" class="heading" >JIPANGE !<br></h1>
+        <p><i>WHAT WOULD YOU LIKE TO DO TODAY</i></p>
+        <br><br><br>               
         <div class="row">
           <div class="col-md-4">
             <h1>Diary</h1>
+            <a href="/diary">
+            <img class="indexImages" src="{{url_for('static',filename='photos/emailIcon.png')}}" alt="diary">
+            </a>
           </div>
           <div class="col-md-4">
             <h1>Shopping List</h1>
+            <a href="/shopping">
+            <img class="indexImages" src="{{url_for('static',filename='photos/phoneIcon.png')}}" alt="shopping list">
+            </a>
           </div>
           <div class="col-md-4">
             <h1>To-do-list</h1>
+            <a href="/todolist">
+            <img class="indexImages" src="{{url_for('static',filename='photos/phoneIcon.png')}}" alt="To-do-list">
+            </a>
           </div>
+          <br>
         </div>
       </div>    
     </div>
