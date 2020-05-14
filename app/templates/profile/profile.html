@@ -20,28 +20,28 @@
     <div class="row">
       <!--Display Username-->
       <div class="col-md-4">
-        <h3>{{writer.username| capitalize}}</h3>        
+        <h3>{{user.username| capitalize}}</h3>        
 
         <!--Display User Bio-->
-        {%if writer.bio%}
-        <p>{{writer.bio}}</p>
+        {%if user.bio%}
+        <p>{{user.bio}}</p>
         {%else%}
-        <p>{{writer.username| capitalize}} has no bio</p>
+        <p>{{user.username| capitalize}} has no bio</p>
         {%endif%}
 
-        {%if writer == current_user%}
-          <a href="{{url_for('main.update_profile',uname = writer.username)}}">Edit Profile</a>
+        {%if user == current_user%}
+          <a href="{{url_for('main.update_profile',uname = user.username)}}">Edit Profile</a>
         {%endif%}
       </div>
       <!--Display the profile photo-->
       <div class="col-md-4">
-        {%if writer.profile_pic_path%}
-        <img src="{{url_for('static',filename=writer.profile_pic_path)}}" alt="" class="img-thumbnail">
+        {%if user.profile_pic_path%}
+        <img src="{{url_for('static',filename=user.profile_pic_path)}}" alt="" class="img-thumbnail">
         {%else%}
         <p>No Profile Picture</p>
         {%endif%}
-        {%if writer == current_user%}
-        <form action="{{url_for('main.update_pic',uname = writer.username)}}" method="POST" enctype="multipart/form-data">
+        {%if user == current_user%}
+        <form action="{{url_for('main.update_pic',uname = user.username)}}" method="POST" enctype="multipart/form-data">
           <input type="file" name="photo" class="form-control" required>
           <input type="submit">        
         </form>

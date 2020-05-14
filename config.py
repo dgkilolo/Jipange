@@ -2,12 +2,13 @@ import os
 
 class Config:
 
-    SECRET_KEY = os.environ.get('SECRET_KEY')
+    SECRET_KEY = '1234'
     
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://dkg:boot@localhost/jipange'  
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://collins:kiprutoh@localhost/jipange'  
                 ### remeber to change to your own local database
                 # SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://'yourdatabase':'yourpassword'@localhost/jipange'  
-    
+    # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+
     @staticmethod
     def init_app(app):
         pass
