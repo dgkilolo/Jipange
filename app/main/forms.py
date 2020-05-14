@@ -10,8 +10,8 @@ class DiaryForm(FlaskForm):
 
 
 class ShoppingForm(FlaskForm):
-   title = StringField("Shopping Title", validators = [Required()])
-   message = TextAreaField("Description", validators = [Required()])  
+   title = StringField("Category", validators = [Required()])
+   message = TextAreaField("Items", validators = [Required()])  
   
    submit=SubmitField("Add Shopping")
 

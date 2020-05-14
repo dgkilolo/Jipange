@@ -63,11 +63,11 @@ def add_diary(uname):
 def profile(uname):
   user = User.query.filter_by(username = uname).first()
 
-     form = UpdateProfile()
+  form = UpdateProfile()
 
 
   if user is None:
-      abort(404)
+    abort(404)
   title = "Profile"
   return render_template("profile/profile.html", user=user, title=title)
 
@@ -116,7 +116,9 @@ def shopping():
 
     shopping_list = Shopping.get_shopping()
 
-    return render_template('shopping/shopping.html',user=user,Shopping=form,shopping_list=shopping_list)
+    title = 'Shopping List'
+
+    return render_template('shopping/shopping.html',user=user,Shopping=form,shopping_list=shopping_list,title=title)
 
 @main.route('/delete/<int:item_id>')
 def delete_item(item_id):
@@ -178,7 +180,8 @@ def delete_diary(diary_id):
 @login_required
 def tasks_list():
     tasks = ToDoList.query.all()
-    return render_template('todolist/todolist.html', tasks=tasks)
+    title = "To Do List"
+    return render_template('todolist/todolist.html', tasks=tasks, title=title)
 
 
 @main.route('/task', methods=['POST'])

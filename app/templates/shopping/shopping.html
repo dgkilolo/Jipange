@@ -1,22 +1,45 @@
 {% extends 'base.html'%}
 {% import "bootstrap/wtf.html" as wtf %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    {% if title %}
+    <title> {{ title }} </title>
+    {% else %}
+    <title>Shooping List</title>
+    {% endif %}
+  </head>
+<!-- Styles block -->
+{% block styles%}
+{{ super() }}
+<link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
+<link href="https://fonts.googleapis.com/css2?family=Acme&family=Architects+Daughter&family=Gloria+Hallelujah&family=Lato:wght@400;700&family=Special+Elite&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Spinnaker&display=swap" rel="stylesheet">
+{% endblock %}
 
 {% block content %}
 <br>
 <br>
 <div class="container">
-<br>
-<br>
-  {{ wtf.quick_form(Shopping) }}
-
-<h1>This is the shopping List</h1>
-{% for item in shopping_list %}
-    <h3>{{item.title}}</h3>
-    <p>{{item.message}}</p>
-    <a  href="{{url_for('main.delete_item', item_id = item.id)}}"><button style="float: right;" type="button" class="btn btn-danger btn-xs">DELETE <br></button></a>
+<h2 id="diary-header">SHOPPING lIST</h2>  
+<div id="add-diary">
+  <p>Jipange ensures that you don't forget any items when you go shopping. </p>
+  <button type="button" class="btn  btn-md"><a  href="#shopping">ADD ITEM </button></a>  
+</div>
+<h3 id="entries-header"> Your Shopping List </h3>
+<div class="row">
+{% for item in shopping_list %}  
+  <div class="col-md-6" style="align-items: center;">
+    <h3 id="shopping-title" > <li><u>{{item.title}}</u></li> <p style="text-align: center; color: white; " >{{item.message}}</p> <button type="button" class="btn  btn-md"><a  href="{{url_for('main.delete_item', item_id = item.id)}}">DELETE <br></button></a> </h3>  
+  </div>   
 {% endfor %}
 </div>
-
-
-
+<br><br><hr>
+<div class="col-md-3"></div>
+<div style="align-items: center;" id="shopping" class="col-md-6">
+  {{ wtf.quick_form(Shopping) }}
+</div>
+<div class="col-md-3"></div>
+</div>
 {% endblock %}

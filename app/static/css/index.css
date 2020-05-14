@@ -76,6 +76,12 @@ body{
   font-size:30px;
   text-decoration: underline;
 }
+#shopping-title{
+  font-family: 'Spinnaker', sans-serif ;
+  color: #9ae847;
+  text-align: center;
+  font-size:30px;  
+}
 
 #diary-img{
   width: 400px;
