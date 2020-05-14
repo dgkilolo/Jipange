@@ -31,8 +31,7 @@ def create_app(config_name):
     bootstrap.init_app(app)
     db.init_app(app)
     login_manager.init_app(app)
-    # mail.init_app(app)
-    # simple.init_app(app)
+
 
 
     # Registering the blueprint
@@ -42,12 +41,8 @@ def create_app(config_name):
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint,url_prefix = '/auth')    
 
-    # setting config
-    # from .requests import configure_request
-    # configure_request(app)
-
 
     # configure UploadSet
-    # configure_uploads(app,photos)
+    configure_uploads(app,photos)
 
     return app

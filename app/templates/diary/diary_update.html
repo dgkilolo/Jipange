@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content %}
+<div class="container">
+    <form class = "form-group" method = "POST" enctype="multipart/form-data"> 
+        {{form.hidden_tag()}}
+        {{form.title.label}}
+        {{form.title(class = "form-control",style="margin-bottom: 10px;")}}
+        {{form.description.label}}
+        {{form.description(class = "form-control", style="margin-bottom: 15px;")}}
+        <label> Update Photo</label>
+        <input type="file" name="photo" class="form-control" style="margin-bottom:15px" required>
+        {{form.submit(class = "btn btn-outline-info")}}  
+    </form>
+
+</div>
+
+{% endblock%}

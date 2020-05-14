@@ -2,10 +2,10 @@ from flask import render_template,request,redirect,url_for,abort
 from . import main
 from ..models import User, Shopping, ToDoList, Diary
 from flask_login import login_required, current_user
-# from .forms import #UpdateProfile, NewPost, NewComment, UpdatePost    #### Import the forms that you create   
 from .. import db,photos
-from datetime import datetime
-# import markdown2
+from .forms import DiaryForm, UpdateDiary
+from datetime import date
+from sqlalchemy import desc
 
 # Views
 @main.route('/')
@@ -14,70 +14,43 @@ def index():
     '''
     View root page function that returns the index page and its data
     '''
-   
-
     title = 'Jipange'
-
     return render_template('index.html', title = title)
+
+
+@main.route('/diary' ,methods = ['GET', 'POST'])
+@login_required
+def diary():
+    title = "My Diary"
+    diary_entries = Diary.query.order_by(desc(Diary.id)).all()
     
 
-@main.route('/diary')
-def diaryTest():
-    '''
-    View root page function that returns the home page.
-    '''
-    title = 'Diary'
-    
-    return render_template('diary/diary.html', title = title)
-
-@main.route('/shopping')
-def shoppingTest():
-    '''
-    View root page function that returns the home page.
-    '''
-    title = 'Shopping'
-    
-    return render_template('shopping/shopping.html', title = title)
-
-@main.route('/todolist')
-def todolistTest():
-    '''
-    View root page function that returns the home page.
-    '''
-    title = 'ToDoList'
-    
-    return render_template('todolist/todolist.html', title = title)
 
 
-# @main.route('/home/<int:postId>/deletePost',methods = ['GET','POST'])
-# @login_required
-# def delete_post(postId):
-#   post = Posts.query.filter_by(id = postId).first()   
-#   db.session.delete(post)
-#   db.session.commit()
-#   return redirect(url_for("main.home", postId=post.id))  
-  
+    return render_template('diary/diary.html', title = title, diary_entries = diary_entries)
 
 
-# @main.route('/home/<int:postId>/changePost',methods = ['GET','POST'])
-# @login_required
-# def update_posts(postId):
-#   post = Posts.query.filter_by(id = postId).first()
-#   if post is None:
-#       abort(404)
+@main.route('/diary/<uname>/addpost', methods = ['GET', 'POST'])
+def add_diary(uname):
+    title = "Add Entry"
+    form = DiaryForm()
 
-#   form = UpdatePost()
+    user = User.query.filter_by(username = uname).first()
 
-#   if form.validate_on_submit():
-#     post.description = form.description.data
+    if user is None:
+        abort(404)
+ 
+    if form.validate_on_submit():
+        title = form.title.data
+        description = form.description.data
 
-#     db.session.add(post)
-#     db.session.commit()
-
-#     return redirect(url_for('.home'))
-
-#   title = "Edit Post"
-#   return render_template('updateForm.html',form=form, title=title)
+        if "post_photo" in request.files:
+            picture = photos.save(request.files["post_photo"])
+            path = f"photos/{picture}"
+            picture_pic_path = path
+        
+        new_diary = Diary(title = title, description = description , picture_pic_path = picture_pic_path, user = user)
+        new_diary.save_diary()
 
 @main.route('/user/<uname>')
 def profile(uname):
@@ -123,83 +96,58 @@ def update_pic(uname):
     return redirect(url_for('.profile',uname=uname))
 
 
-
-# @main.route('/post', methods = ['GET','POST'])
-# @login_required
-# def add_pitch():
-  
-#   form = NewPost()
-#   if form.validate_on_submit():
-#     title = form.title.data
-#     post = form.post.data  
     
-#     # Updated post instance
-#     new_post = Posts(title=title,description=post)
+        return redirect(url_for('main.diary'))
 
-#     # Save post method
-#     new_post.save_post()
-#     return redirect(url_for('.home'))
+    return render_template('diary/diaryform.html', form = form, title = title)
 
-#   title = 'New post'
-#   return render_template('newpost.html',title = title,pitch_form=form )
-
-
-
-
-# @main.route('/<int:postId>/comment',methods=['GET','POST'])
-# def post_comment(postId):
-# #   user = User.query.filter_by(username = uname).first()
-#   post = Posts.query.filter_by(id = postId).first()
-# #   if user is None:
-# #     abort(404)
-#   form = NewComment()
-
-#   if form.validate_on_submit():
-#     new_comment = Comments(comment = form.comment.data, post_id = postId)
-#     db.session.add(new_comment)
-#     db.session.commit()
-#     return redirect(url_for('main.post_comment', postId=post.id))
-  
-#   comment_list = Comments.get_comments_by_post(postId)
-  
-#   title = "New Comment"
-#   return render_template('newcomment.html',title=title, comment_form=form, CommentPost=post, comment_list=comment_list)
-
-
-# @main.route('/<int:commentId>/delete',methods = ['GET','POST'])
-# def delete_comment(commentId):
-#   comment = Comments.query.filter_by(id = commentId).first()  
-#   db.session.delete(comment)
-#   db.session.commit()
-#   return redirect(url_for("main.post_comment", postId=comment.post_id))
-
-  
-# Todolist1
-
-# @main.route('/todolist')
-# def todo():
-#     incomplete = ToDoList.query.filter_by(complete=False).all()
-#     complete = ToDoList.query.filter_by(complete=True).all()
-
-#     return render_template('todolist/todolist.html', incomplete=incomplete, complete=complete)
-
-# @main.route('/add', methods=['POST'])
-# def add ():
-#     todolist = ToDoList(text=request.form['todoitem'], complete=False)
-#     db.session.add(todolist)
-#     db.session.commit()
-
-#     return redirect(url_for('/todolist'))
-
-# @main.route('/complete/<id>')
-# def complete(id):
-#     todolist = ToDoList.query.filter_by(id=int(id)).first()
-#     todo.complete = True
-#     db.session.commit()
+@main.route('/update/<diary_id>', methods = ["GET", "POST"])
+def update_diary(diary_id):
+    diary = Diary.query.filter_by(id=diary_id).first()
+    diary_photo = diary.picture_pic_path
+    diary_title = diary.title
+    diary_description = diary.description
     
-#     return redirect(url_for('/todolist'))
 
-# todolist2
+    if diary is None:
+        abort(404)
+
+    form = UpdateDiary()
+    if form.validate_on_submit():
+        if form.title.data:
+            diary.title = form.title.data
+        else:
+            diary.title = diary_title
+
+        if form.description.data:
+           diary.description = form.description.data
+        else:
+            diary.description = diary_description
+
+        if "photo" in request.files:
+            picture = photos.save(request.files["photo"])
+            path =f"photos/{picture}"
+            diary.picture_pic_path = path
+
+        else:
+            diary.picture_pic_path = diary_photo
+
+        db.session.add(diary)
+        db.session.commit()
+
+        return redirect(url_for("main.diary"))
+
+    return render_template('diary/diary_update.html', form = form)
+
+@main.route('/delete/diary/<diary_id>')
+def delete_diary(diary_id):
+    diary = Diary.query.filter_by(id = diary_id).first()
+
+    db.session.delete(diary)
+    db.session.commit()
+
+
+    return redirect(url_for('main.diary'))
 
 @main.route('/todolist')
 def tasks_list():
@@ -247,3 +195,4 @@ def resolve_task(task_id):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
