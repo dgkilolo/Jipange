@@ -1,19 +1,49 @@
 {% extends 'base.html'%}
+{% block styles%}
+{{ super() }}
+<link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
+<link href="https://fonts.googleapis.com/css2?family=Acme&family=Architects+Daughter&family=Gloria+Hallelujah&family=Lato:wght@400;700&family=Special+Elite&display=swap"
+        rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Spinnaker&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Spinnaker&display=swap" rel="stylesheet">
+{% endblock %}
+
+
 {% block content %}
+<div class="container">
+        <h2 id="diary-header">DIARY</h2>
+        <div id="add-diary">
+                <p>Jipange keeps your memories for you </p>
 
-{%for diary in diary_entries%}
-<h3>{{diary.title}}</h3>
-<h4>{{diary.posted}}</h4>
-<p>{{diary.description}}</p>
 
-<img src="{{url_for('static',filename=diary.picture_pic_path)}}" alt="" class="img-thumbnail">
-<button class="btn btn-outline-danger"><a href="{{url_for('main.update_diary',diary_id  = diary.id)}}">
-        Update </a></button>
-<button class="btn btn-outline-danger"><a href="{{url_for('main.delete_diary',diary_id  = diary.id)}}">
-        Delete </a></button>
-{% endfor %}
-<br>
+                <button class="btn btn-outline-info"><a
+                                href="{{url_for('main.add_diary', uname = current_user.username)}}">
+                                Add A Diary Entry </a></button>
+        </div>
 
-<button class="btn btn-outline-danger"><a href="{{url_for('main.add_diary', uname = current_user.username)}}">
-        Add Diary Post </a></button>
+        <h3 id="entries-header"> View your older Entries</h3>
+        {% if diary_entries%}
+        {%for diary in diary_entries%}
+        <div id="diary-post">
+                <p id="diary-title">{{diary.title}}</p>
+                <img id="diary-img" src="{{url_for('static',filename=diary.picture_pic_path)}}" alt=""
+                        class="img-thumbnail">
+                <p>{{diary.description}}</p>
+
+                <button class="btn btn-outline-danger"><a href="{{url_for('main.update_diary',diary_id  = diary.id)}}">
+                                Update </a></button>
+                <button class="btn btn-outline-danger"><a href="{{url_for('main.delete_diary',diary_id  = diary.id)}}">
+                                Delete </a></button>
+                <br><br>
+                                {% endfor %}
+        </div>
+        {% else %}
+        <h4 id="no-entries">You do not have any entries, add an entry</h4>
+
+        {% endif %}
+
+        <br>
+
+
+</div>
 {% endblock %}
