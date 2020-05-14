@@ -6,19 +6,19 @@ from wtforms.validators import Required
 #     bio = TextAreaField('Tell us about you.',validators = [Required()])
 #     submit = SubmitField('Submit')
 
-# class NewPost(FlaskForm):
-#   title = StringField("Post Title", validators = [Required()])
-#   post = TextAreaField("Description", validators = [Required()])  
+class Shopping(FlaskForm):
+   title = StringField("Shopping Title", validators = [Required()])
+   post = TextAreaField("Description", validators = [Required()])  
   
-#   submit=SubmitField("Add Post")
+   submit=SubmitField("Add Shopping")
 
-# class NewComment(FlaskForm):
-#   comment = TextAreaField("Comment", validators=[Required()])
-#   submit = SubmitField('Comment')
+class NewComment(FlaskForm):
+   comment = TextAreaField("Comment", validators=[Required()])
+   submit = SubmitField('Comment')
 
-# class UpdatePost(FlaskForm):
-#     description = TextAreaField('Tell us about you.',validators = [Required()])
-#     submit = SubmitField('Submit')
+class UpdatePost(FlaskForm):
+     description = TextAreaField('Tell us about you.',validators = [Required()])
+     submit = SubmitField('Submit')
 
 
-        #### I've left these here in case you need to refer to them on how to add forms.
+        
