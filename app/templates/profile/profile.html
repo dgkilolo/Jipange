@@ -40,7 +40,9 @@
         {%else%}
         <p>No Profile Picture</p>
         {%endif%}
-        {%if writer == current_user%}
+
+        {%if user == current_user%}
+
         <form action="{{url_for('main.update_pic',uname = user.username)}}" method="POST" enctype="multipart/form-data">
           <input type="file" name="photo" class="form-control" required>
           <input type="submit">        

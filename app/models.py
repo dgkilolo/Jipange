@@ -15,7 +15,6 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer,primary_key = True)
     username = db.Column(db.String(255))
     email = db.Column(db.String(255),unique = True,index = True)    
-    
     bio = db.Column(db.String(255))
     profile_pic_path = db.Column(db.String())    
     password_hash = db.Column(db.String(255))
@@ -23,8 +22,7 @@ class User(UserMixin, db.Model):
     diary = db.relationship('Diary',backref = 'user',lazy="dynamic")
     shopping = db.relationship('Shopping',backref = 'user',lazy="dynamic")
     todolist = db.relationship('ToDoList',backref = 'user',lazy="dynamic")
-    
-    
+
 
     @property
     def password(self):
@@ -47,10 +45,14 @@ class Diary(db.Model):
 
   id = db.Column(db.Integer, primary_key = True)
   title = db.Column(db.String(255))
-  description = db.Column(db.String(700))
+  description = db.Column(db.String)
   posted = db.Column(db.DateTime, default=datetime.utcnow)  
   user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
   picture_pic_path = db.Column(db.String())
+
+  def save_diary(self):
+    db.session.add(self)
+    db.session.commit()
   
 
 class Shopping(db.Model):
@@ -73,12 +75,22 @@ class Shopping(db.Model):
  
 
 class ToDoList(db.Model):
-  
+    
   __tablename__ ='todolist'
 
   id = db.Column(db.Integer, primary_key = True)
-  toDo = db.Column(db.String(55))  
   time = db.Column(db.DateTime, default=datetime.utcnow)  
   user_id = db.Column(db.Integer, db.ForeignKey('users.id')) 
+  content = db.Column(db.Text)
+  done = db.Column(db.Boolean, default=False)
+
+
+  def __init__(self, content):
+        self.content = content
+        self.done = False
+
+  def __repr__(self):
+        return '<Content %s>' % self.content
+
 
 

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf%}
+{% block styles%}
+{{ super() }}
+<link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
+<link
+    href="https://fonts.googleapis.com/css2?family=Acme&family=Architects+Daughter&family=Gloria+Hallelujah&family=Lato:wght@400;700&family=Special+Elite&display=swap"
+    rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Spinnaker&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Spinnaker&display=swap" rel="stylesheet">
+{% endblock %}
+
+
+{% block content %}
+<div class="container">
+    <h2 id="diary-header">TO-DO LIST</h2>
+    <div id="add-diary">
+        <p>Jipange can help you keep track of things to do! Add a task below. </p>
+
+        <form class="form-group" action="/task" method="post">
+            <p><input type="text" name="content" style="color: black;"></p>
+            <input type="submit" value="Add task" class="btn btn-primary">
+        </form>
+    </div>
+
+    <h3 id="entries-header"> Here are your Tasks </h3>
+
+            {% if tasks%}
+            {% for task in tasks %}
+            <div id="tasks">
+            <li>
+                {% if task.done %} <strike> {% endif %}{{ task.content }} {% if task.done %} </strike>{% endif %}
+                <button class="btn btn-outline-success" ><a href="/done/{{ task.id }}" >Done</a></button>
+
+                <button class="btn btn-outline-danger"><a href="/delete/{{ task.id }}" >Delete</a></button>
+
+            </li>
+            <br>
+            {% endfor %}
+            {% else %}
+        <h4 id="no-entries">You do not have any tasks, add a task</h4>
+
+        {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+style="font-size: 30pt">

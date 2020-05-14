@@ -15,25 +15,44 @@
     {% block styles%}
     {{ super() }}
     <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Acme&family=Architects+Daughter&family=Gloria+Hallelujah&family=Lato:wght@400;700&family=Special+Elite&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Spinnaker&display=swap" rel="stylesheet">
+
     {% endblock %}
     <!-- Content block -->
     {% block content %}
     <div class="container">      
       <div id="welcome">
         <br>             
-        <!-- <h1 id="heading" class="heading" >BLOG !<br></h1> -->
-        <p><u>WHAT WOULD YOU LIKE TO DO TODAY</u></p>
-        <br><br><br><br><br><br><br><br><br>               
+
+        <h1 id="heading" class="heading" >JIPANGE <br></h1>
+      <p>Your go-to productivity application. </p>
+
+      <h3>ABOUT </h3>
+      <p>Jipange helps you get your life with the various features available. Store your memories using Diary, Have a good time shopping because you won't forget a thing, thanks to Shopping List and keep track of things you need to do using To-Do List.  </p>
+        <h3>WHAT WOULD LIKE TO DO?</h3>              
         <div class="row">
           <div class="col-md-4">
-            <h1>Diary</h1>
+            <h2>Diary</h2>
+            <a href="/diary">
+            <img class="indexImages" src="{{url_for('static',filename='photos/diary.png')}}" alt="diary">
+            </a>
           </div>
           <div class="col-md-4">
-            <h1>Shopping List</h1>
+            <h2>Shopping List</h2>
+            <a href="/shopping">
+            <img class="indexImages" src="{{url_for('static',filename='photos/shopping.png')}}" alt="shopping list">
+            </a>
           </div>
           <div class="col-md-4">
-            <h1>To-do-list</h1>
+            <h2>To-do-list</h2>
+            <a href="/todolist">
+            <img class="indexImages" src="{{url_for('static',filename='photos/list.png')}}" alt="To-do-list">
+            </a>
           </div>
+          <br>
+
         </div>
       </div>    
     </div>

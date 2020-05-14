@@ -3,9 +3,11 @@ from wtforms import StringField,TextAreaField,SubmitField,SelectField,FileField
 from wtforms.validators import Required
 from . import main
 
-# class UpdateProfile(FlaskForm):
-#     bio = TextAreaField('Tell us about you.',validators = [Required()])
-#     submit = SubmitField('Submit')
+class DiaryForm(FlaskForm):
+    title = StringField("What are you writing about today?", validators=[Required()])
+    description = TextAreaField("Write away ...", validators= [Required()])
+    submit = SubmitField("Submit Entry")
+
 
 class ShoppingForm(FlaskForm):
    title = StringField("Shopping Title", validators = [Required()])
@@ -21,5 +23,8 @@ class UpdatePost(FlaskForm):
    description = TextAreaField('Tell us about you.',validators = [Required()])
    submit = SubmitField('Submit')
 
+class UpdateDiary(FlaskForm):
+    title = StringField("Update title")
+    description = TextAreaField("Change post")
+    submit = SubmitField("Update post")
 
-        
