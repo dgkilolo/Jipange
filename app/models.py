@@ -22,6 +22,9 @@ class User(UserMixin, db.Model):
     pass_secure = db.Column(db.String(255))
 
     diary = db.relationship('Diary',backref = 'user',lazy="dynamic")
+    shopping = db.relationship('Shopping',backref = 'user',lazy="dynamic")
+    todolist = db.relationship('ToDoList',backref = 'user',lazy="dynamic")
+    
     
 
     @property
