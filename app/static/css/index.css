@@ -89,3 +89,12 @@ body{
 #diary-post{
   text-align: center;
 }
+
+#tasks{
+  
+  font-family: 'Spinnaker', sans-serif;
+  font-size: 30px;
+  text-align: center;
+  color: #9ae847;
+
+}
