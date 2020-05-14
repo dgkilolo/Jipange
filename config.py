@@ -5,7 +5,7 @@ class Config:
 
     SECRET_KEY = '1234'
     UPLOADED_PHOTOS_DEST ='app/static/photos'
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://diana:12345@localhost/jipangedb'
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://dkg:boot@localhost/jipange'
 
 
     @staticmethod
@@ -18,7 +18,7 @@ class ProdConfig(Config):
 
 
 class DevConfig(Config):
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://diana:12345@localhost/jipangedb' 
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://dkg:boot@localhost/jipange' 
     
     DEBUG = True
 

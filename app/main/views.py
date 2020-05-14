@@ -152,6 +152,7 @@ def delete_diary(diary_id):
     return redirect(url_for('main.diary'))
 
 @main.route('/todolist')
+@login_required
 def tasks_list():
     tasks = ToDoList.query.all()
     return render_template('todolist/todolist.html', tasks=tasks)
