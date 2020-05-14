@@ -1,15 +1,20 @@
 #welcome {
   text-align: center;
 }
-/* #posts{
+#posts{
   background-color: #AD2831;
   color: whitesmoke;
 }
 body{
-  background-color: #EBD4CB;
-  color: #69140E;
+  background-color: #F3EEC3;
+  color: #040F0F;
 }
 .heading {
   font-size:100px;
-} */
+}
+.indexImages {
+  height: 200px;
+  width: 200px;
+  border: 1px solid #040F0F ;
+}
 

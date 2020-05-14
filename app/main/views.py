@@ -21,17 +21,32 @@ def index():
     return render_template('index.html', title = title)
     
 
-@main.route('/home')
-def home():
+@main.route('/diary')
+def diaryTest():
     '''
     View root page function that returns the home page.
     '''
-    title = 'Blog'
-    posts = Posts.query.all()
-    # pitches = Pitch.query.filter_by(category = 'pun').all()
-    # comment = Comment.query.filter_by(pitch_id = 1).all()
+    title = 'Diary'
     
-    return render_template('home.html', title = title, posts=posts)
+    return render_template('diary/diary.html', title = title)
+
+@main.route('/shopping')
+def shoppingTest():
+    '''
+    View root page function that returns the home page.
+    '''
+    title = 'Shopping'
+    
+    return render_template('shopping/shopping.html', title = title)
+
+@main.route('/todolist')
+def todolistTest():
+    '''
+    View root page function that returns the home page.
+    '''
+    title = 'ToDoList'
+    
+    return render_template('todolist/todolist.html', title = title)
 
 
 # @main.route('/home/<int:postId>/deletePost',methods = ['GET','POST'])
@@ -68,6 +83,7 @@ def home():
 def profile(uname):
   user = User.query.filter_by(username = uname).first()
 
+
   if user is None:
       abort(404)
   title = "Profile"
@@ -86,15 +102,13 @@ def update_profile(uname):
     if form.validate_on_submit():
         user.bio = form.bio.data
 
+
         db.session.add(user)
         db.session.commit()
 
         return redirect(url_for('.profile',uname=user.username))
 
     return render_template('profile/update.html',form =form)
-
-
-
 
 
 @main.route('/user/<uname>/update/pic',methods= ['POST'])
