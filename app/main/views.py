@@ -83,6 +83,7 @@ def todolistTest():
 def profile(uname):
   user = User.query.filter_by(username = uname).first()
 
+
   if user is None:
       abort(404)
   title = "Profile"
@@ -100,6 +101,7 @@ def update_profile(uname):
 
     if form.validate_on_submit():
         user.bio = form.bio.data
+
 
         db.session.add(user)
         db.session.commit()
@@ -172,3 +174,76 @@ def update_pic(uname):
 #   return redirect(url_for("main.post_comment", postId=comment.post_id))
 
   
+# Todolist1
+
+# @main.route('/todolist')
+# def todo():
+#     incomplete = ToDoList.query.filter_by(complete=False).all()
+#     complete = ToDoList.query.filter_by(complete=True).all()
+
+#     return render_template('todolist/todolist.html', incomplete=incomplete, complete=complete)
+
+# @main.route('/add', methods=['POST'])
+# def add ():
+#     todolist = ToDoList(text=request.form['todoitem'], complete=False)
+#     db.session.add(todolist)
+#     db.session.commit()
+
+#     return redirect(url_for('/todolist'))
+
+# @main.route('/complete/<id>')
+# def complete(id):
+#     todolist = ToDoList.query.filter_by(id=int(id)).first()
+#     todo.complete = True
+#     db.session.commit()
+    
+#     return redirect(url_for('/todolist'))
+
+# todolist2
+
+@main.route('/todolist')
+def tasks_list():
+    tasks = ToDoList.query.all()
+    return render_template('todolist/todolist.html', tasks=tasks)
+
+
+@main.route('/task', methods=['POST'])
+def add_task():
+    content = request.form['content']
+    if not content:
+        return 'Ooops! Error you forgot to input text'
+
+    task = ToDoList(content)
+    db.session.add(task)
+    db.session.commit()
+    return redirect('/todolist')
+
+
+@main.route('/delete/<int:task_id>')
+def delete_task(task_id):
+    task = ToDoList.query.get(task_id)
+    if not task:
+        return redirect('/todolist')
+
+    db.session.delete(task)
+    db.session.commit()
+    return redirect('/todolist')
+
+
+@main.route('/done/<int:task_id>')
+def resolve_task(task_id):
+    task = ToDoList.query.get(task_id)
+
+    if not task:
+        return redirect('/todolist')
+    if task.done:
+        task.done = False
+    else:
+        task.done = True
+
+    db.session.commit()
+    return redirect('/todolist')
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
