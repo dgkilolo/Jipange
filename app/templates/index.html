@@ -15,14 +15,17 @@
     {% block styles%}
     {{ super() }}
     <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
+
     <link href="https://fonts.googleapis.com/css2?family=Acme&family=Architects+Daughter&family=Gloria+Hallelujah&family=Lato:wght@400;700&family=Special+Elite&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Spinnaker&display=swap" rel="stylesheet">
+
     {% endblock %}
     <!-- Content block -->
     {% block content %}
     <div class="container">      
       <div id="welcome">
         <br>             
+
         <h1 id="heading" class="heading" >JIPANGE <br></h1>
       <p>Your go-to productivity application. </p>
 
@@ -49,6 +52,7 @@
             </a>
           </div>
           <br>
+
         </div>
       </div>    
     </div>

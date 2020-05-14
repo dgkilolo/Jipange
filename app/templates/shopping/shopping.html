@@ -1,1 +1,22 @@
-<h1 style="text-align: center; padding-top: 20%;" >This is the shopping page.</h1>
+{% extends 'base.html'%}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content %}
+<br>
+<br>
+<div class="container">
+<br>
+<br>
+  {{ wtf.quick_form(Shopping) }}
+
+<h1>This is the shopping List</h1>
+{% for item in shopping_list %}
+    <h3>{{item.title}}</h3>
+    <p>{{item.message}}</p>
+    <a  href="{{url_for('main.delete_item', item_id = item.id)}}"><button style="float: right;" type="button" class="btn btn-danger btn-xs">DELETE <br></button></a>
+{% endfor %}
+</div>
+
+
+
+{% endblock %}

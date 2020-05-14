@@ -3,9 +3,11 @@ from . import main
 from ..models import User, Shopping, ToDoList, Diary
 from flask_login import login_required, current_user
 from .. import db,photos
-from .forms import DiaryForm, UpdateDiary
+
+from .forms import DiaryForm, UpdateDiary, ShoppingForm
 from datetime import date
 from sqlalchemy import desc
+
 
 # Views
 @main.route('/')
@@ -14,9 +16,10 @@ def index():
     '''
     View root page function that returns the index page and its data
     '''
-    title = 'Jipange'
-    return render_template('index.html', title = title)
 
+    title = 'Jipange'
+
+    return render_template('index.html', title = title)
 
 @main.route('/diary' ,methods = ['GET', 'POST'])
 @login_required
@@ -60,6 +63,8 @@ def add_diary(uname):
 def profile(uname):
   user = User.query.filter_by(username = uname).first()
 
+     form = UpdateProfile()
+
 
   if user is None:
       abort(404)
@@ -80,28 +85,46 @@ def update_profile(uname):
         user.bio = form.bio.data
 
 
+
         db.session.add(user)
         db.session.commit()
 
         return redirect(url_for('.profile',uname=user.username))
 
-    return render_template('profile/update.html',form =form)
 
-
-@main.route('/user/<uname>/update/pic',methods= ['POST'])
+@main.route('/shopping', methods = ['GET','POST'])
 @login_required
-def update_pic(uname):
-    user = User.query.filter_by(username = uname).first()
-    if 'photo' in request.files:
-        filename = photos.save(request.files['photo'])
-        path = f'photos/{filename}'
-        user.profile_pic_path = path
+def shopping():
+    user = User.query.filter_by().first()
+
+    if user is None:
+        abort(404)
+
+    form = ShoppingForm()
+    shopping = Shopping()
+
+    if form.validate_on_submit():
+        
+        shopping.title= form.title.data
+        shopping.message=form.message.data
+        shopping.user_id =current_user.id
+
+        db.session.add(shopping)
         db.session.commit()
-        return redirect(url_for('.profile',uname=uname))
+        
+        return redirect(url_for('main.shopping'))
 
+    shopping_list = Shopping.get_shopping()
 
-    
-    
+    return render_template('shopping/shopping.html',user=user,Shopping=form,shopping_list=shopping_list)
+
+@main.route('/delete/<int:item_id>')
+def delete_item(item_id):
+    shopping_item = Shopping.query.get(item_id)    
+    db.session.delete(shopping_item)
+    db.session.commit()
+
+    return redirect(url_for('main.shopping'))
 
 @main.route('/update/<diary_id>', methods = ["GET", "POST"])
 def update_diary(diary_id):
@@ -181,9 +204,11 @@ def delete_task(task_id):
     return redirect('/todolist')
 
 
+
 @main.route('/done/<int:task_id>')
 def resolve_task(task_id):
     task = ToDoList.query.get(task_id)
+
 
     if not task:
         return redirect('/todolist')
@@ -196,6 +221,6 @@ def resolve_task(task_id):
     return redirect('/todolist')
 
 
+
 if __name__ == '__main__':
     app.run(debug=True)
-

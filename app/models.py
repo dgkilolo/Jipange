@@ -19,11 +19,10 @@ class User(UserMixin, db.Model):
     profile_pic_path = db.Column(db.String())    
     password_hash = db.Column(db.String(255))
     pass_secure = db.Column(db.String(255))
-
     diary = db.relationship('Diary',backref = 'user',lazy="dynamic")
     shopping = db.relationship('Shopping',backref = 'user',lazy="dynamic")
     todolist = db.relationship('ToDoList',backref = 'user',lazy="dynamic")
- 
+
 
     @property
     def password(self):
@@ -58,12 +57,21 @@ class Diary(db.Model):
 
 class Shopping(db.Model):
   
-  __tablename__ ='shoppingList'
+  __tablename__ ='shoppinglist'
 
   id = db.Column(db.Integer, primary_key = True)
-  item = db.Column(db.String(55))  
+  #item = db.Column(db.String(55))  
+  title = db.Column(db.String)
+  message = db.Column(db.String)
   time = db.Column(db.DateTime, default=datetime.utcnow)  
   user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+  
+  
+
+  def get_shopping():
+      shopping_list = Shopping.query.all()
+      return shopping_list
+
  
 
 class ToDoList(db.Model):
