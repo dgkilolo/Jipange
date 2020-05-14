@@ -6,7 +6,7 @@ from datetime import datetime
 
 @login_manager.user_loader
 def load_user(user_id):
-    return Writer.query.get(int(writer_id))
+    return User.query.get(int(user_id))
 
 
 class User(UserMixin, db.Model):
@@ -55,12 +55,21 @@ class Diary(db.Model):
 
 class Shopping(db.Model):
   
-  __tablename__ ='shoppingList'
+  __tablename__ ='shoppinglist'
 
   id = db.Column(db.Integer, primary_key = True)
-  item = db.Column(db.String(55))  
+  #item = db.Column(db.String(55))  
+  title = db.Column(db.String)
+  message = db.Column(db.String)
   time = db.Column(db.DateTime, default=datetime.utcnow)  
   user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+  
+  
+
+  def get_shopping():
+      shopping_list = Shopping.query.all()
+      return shopping_list
+
  
 
 class ToDoList(db.Model):

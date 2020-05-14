@@ -2,7 +2,7 @@ import os
 
 class Config:
 
-    SECRET_KEY = os.environ.get('SECRET_KEY')
+    SECRET_KEY = '1234'
     
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://mercy:shii@localhost/jipange'  
                 ### remeber to change to your own local database
