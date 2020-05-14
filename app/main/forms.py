@@ -1,24 +1,15 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField,TextAreaField,SubmitField,SelectField,FileField
 from wtforms.validators import Required
+from . import main
 
-# class UpdateProfile(FlaskForm):
-#     bio = TextAreaField('Tell us about you.',validators = [Required()])
-#     submit = SubmitField('Submit')
-
-# class NewPost(FlaskForm):
-#   title = StringField("Post Title", validators = [Required()])
-#   post = TextAreaField("Description", validators = [Required()])  
-  
-#   submit=SubmitField("Add Post")
-
-# class NewComment(FlaskForm):
-#   comment = TextAreaField("Comment", validators=[Required()])
-#   submit = SubmitField('Comment')
-
-# class UpdatePost(FlaskForm):
-#     description = TextAreaField('Tell us about you.',validators = [Required()])
-#     submit = SubmitField('Submit')
+class DiaryForm(FlaskForm):
+    title = StringField("What are you writing about today?", validators=[Required()])
+    description = TextAreaField("Write away ...", validators= [Required()])
+    submit = SubmitField("Submit Entry")
 
 
-        #### I've left these here in case you need to refer to them on how to add forms.
+class UpdateDiary(FlaskForm):
+    title = StringField("Update title")
+    description = TextAreaField("Change post")
+    submit = SubmitField("Update post")
