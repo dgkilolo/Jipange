@@ -52,6 +52,10 @@ def add_diary(uname):
         new_diary = Diary(title = title, description = description , picture_pic_path = picture_pic_path, user = user)
         new_diary.save_diary()
 
+        return redirect(url_for('main.diary'))
+
+    return render_template('diary/diaryform.html', form = form, title = title)
+
 @main.route('/user/<uname>')
 def profile(uname):
   user = User.query.filter_by(username = uname).first()
@@ -93,13 +97,11 @@ def update_pic(uname):
         path = f'photos/{filename}'
         user.profile_pic_path = path
         db.session.commit()
-    return redirect(url_for('.profile',uname=uname))
+        return redirect(url_for('.profile',uname=uname))
 
 
     
-        return redirect(url_for('main.diary'))
-
-    return render_template('diary/diaryform.html', form = form, title = title)
+    
 
 @main.route('/update/<diary_id>', methods = ["GET", "POST"])
 def update_diary(diary_id):
