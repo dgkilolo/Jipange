@@ -2,12 +2,9 @@ import os
 
 class Config:
 
-    SECRET_KEY = os.environ.get('SECRET_KEY')
-    
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://dkg:boot@localhost/jipange'  
-                ### remeber to change to your own local database
-                # SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://'yourdatabase':'yourpassword'@localhost/jipange'  
-    
+    SECRET_KEY='1234'
+    UPLOADED_PHOTOS_DEST ='app/static/photos'
+     
     @staticmethod
     def init_app(app):
         pass
@@ -18,6 +15,7 @@ class ProdConfig(Config):
 
 
 class DevConfig(Config):
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://diana:12345@localhost/jipange'  
     
     DEBUG = True
 

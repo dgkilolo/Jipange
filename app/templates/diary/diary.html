@@ -1,0 +1,19 @@
+{% extends 'base.html'%}
+{% block content %}
+
+{%for diary in diary_entries%}
+<h3>{{diary.title}}</h3>
+<h4>{{diary.posted}}</h4>
+<p>{{diary.description}}</p>
+
+<img src="{{url_for('static',filename=diary.picture_pic_path)}}" alt="" class="img-thumbnail">
+<button class="btn btn-outline-danger"><a href="{{url_for('main.update_diary',diary_id  = diary.id)}}">
+        Update </a></button>
+<button class="btn btn-outline-danger"><a href="{{url_for('main.delete_diary',diary_id  = diary.id)}}">
+        Delete </a></button>
+{% endfor %}
+<br>
+
+<button class="btn btn-outline-danger"><a href="{{url_for('main.add_diary', uname = current_user.username)}}">
+        Add Diary Post </a></button>
+{% endblock %}
